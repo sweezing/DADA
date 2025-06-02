@@ -1,0 +1,7 @@
+python manage.py runserver
+
+python manage.py migration
+
+
+
+pip intsall django
