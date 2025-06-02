@@ -27,6 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Путь для доступа к медиафайлам через URL
+MEDIA_URL = '/media/'
+
+# Абсолютный путь к папке медиафайлов на сервере
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 # Application definition
 

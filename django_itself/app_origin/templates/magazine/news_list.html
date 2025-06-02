@@ -1,0 +1,13 @@
+<h1>Products</h1>
+<a href="{% url 'news_create' %}">Add New Product</a>
+
+{% for news in news %}
+    <div>
+        <img src="{{ news.image.url }}" alt="{{ news.name }}" width="100">
+        <h2>{{ news.name }}</h2>
+        <p>{{ news.description }}</p>
+        <p>${{ news.main_text }}</p>
+        <a href="{% url 'news_update' news.pk %}">Edit</a>
+        <a href="{% url 'news_delete' news.pk %}">Delete</a>
+    </div>
+{% endfor %}
