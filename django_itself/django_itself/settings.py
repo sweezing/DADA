@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-v6+ft#&t*oe15-ljy3@)jnjjn4flg9nr44y#s^^8gwde_92b#u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.129', 'oitib-11', 'localhost']
 
 # Путь для доступа к медиафайлам через URL
 MEDIA_URL = '/media/'
@@ -33,6 +33,10 @@ MEDIA_URL = '/media/'
 # Абсолютный путь к папке медиафайлов на сервере
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Добавьте эти настройки
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'news_list'  # Куда перенаправлять после входа
+LOGOUT_REDIRECT_URL = 'news_list_for_all'  # Куда перенаправлять после выхода
 
 # Application definition
 

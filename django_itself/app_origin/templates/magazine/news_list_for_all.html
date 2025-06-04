@@ -23,15 +23,25 @@
             color: #2c3e50;
             margin-bottom: 30px;
         }
+        .news-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
         .news-item {
-            border-bottom: 1px solid #eee;
-            padding: 20px 0;
-            margin-bottom: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            box-sizing: border-box;
+            flex: 1 1 calc(33.333% - 20px); /* 3 колонки */
+            min-width: 300px; /* Минимальная ширина элемента */
+            display: flex;
+            flex-direction: column;
         }
         .news-item img {
-            max-width: 200px;
+            max-width: 100%;
             height: auto;
-            display: block;
+            border-radius: 4px;
             margin-bottom: 15px;
         }
         .news-title {
@@ -42,17 +52,19 @@
         .news-description {
             color: #666;
             margin-bottom: 10px;
+            flex-grow: 1; /* Растягиваем описание для выравнивания */
         }
         .news-price {
             font-weight: bold;
             color: #27ae60;
+            margin-top: auto; /* Прижимаем к низу */
         }
         .action-links {
             margin-top: 15px;
+            display: flex;
+            gap: 10px;
         }
         .action-links a {
-            display: inline-block;
-            margin-right: 10px;
             color: #3498db;
             text-decoration: none;
         }
@@ -67,32 +79,53 @@
         }
         .footer-links {
             margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
         }
         .footer-links a {
-            margin: 0 10px;
             color: #333;
             text-decoration: none;
         }
 
+        /* Медиа-запросы для адаптивности */
+        @media (max-width: 768px) {
+            .news-item {
+                flex: 1 1 calc(50% - 20px); /* 2 колонки на планшетах */
+            }
+        }
+        @media (max-width: 480px) {
+            .news-item {
+                flex: 1 1 100%; /* 1 колонка на мобильных */
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>НОВОСТИ</h1>
         
-        {% for news in news %}
-        <div class="news-item">
-            <img src="{{ news.image.url }}" alt="{{ news.name }}">
-            <h2 class="news-title">{{ news.name }}</h2>
-            <p class="news-description">{{ news.description }}</p>
-            <p class="news-price">{{ news.main_text }}</p>
+        <div class="news-list">
+            {% for item in news %}
+            <div class="news-item">
+                {% if item.image %}
+                <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                {% else %}
+                <div class="placeholder-image" style="background: #eee; height: 150px; display: flex; align-items: center; justify-content: center; color: #999;">
+                    Изображение отсутствует
+                </div>
+                {% endif %}
+                <h2 class="news-title">{{ item.name }}</h2>
+                <p class="news-description">{{ item.description }}</p>
+                <p class="news-price">{{ item.main_text }}</p>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 
     <footer>
         <div class="footer-links">
+            <a href="/list">Редактирование новостей</a>
             <a href="/admin">Админ панель</a>
         </div>
     </footer>
