@@ -85,7 +85,7 @@
             <img src="{{ news.image.url }}" alt="{{ news.name }}">
             <h2 class="news-title">{{ news.name }}</h2>
             <p class="news-description">{{ news.description }}</p>
-            <p class="news-price">{{ news.main_text }}</p>
+            <p class="news-price">{{ news.main_text|safe }}</p>
             <div class="action-links">
                 <a href="{% url 'news_update' news.pk %}">Изменить</a>
                 <a href="{% url 'news_delete' news.pk %}">Удалить</a>

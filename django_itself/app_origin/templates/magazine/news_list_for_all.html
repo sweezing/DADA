@@ -139,7 +139,7 @@
             {% endif %}
             <h2 class="news-title">{{ item.name }}</h2>
             <p class="news-description">{{ item.description }}</p>
-            <p class="news-price">{{ item.main_text }}</p>
+            <p class="news-price">{{ item.main_text|safe }}</p>
         </div>
         {% endfor %}
     </div>
