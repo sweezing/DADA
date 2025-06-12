@@ -12,115 +12,136 @@
             margin: 0;
             padding: 0;
             color: #333;
+            overflow-x: auto; /* Enable horizontal scrolling */
+            overflow-y: hidden; /* Disable vertical scrolling */
         }
+        
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
+            min-width: 100vw; /* Minimum width of viewport */
+            padding: 20px 0; /* Vertical padding only */
         }
+        
         h1 {
+            position: fixed; /* Fixed header */
+            top: 0;
+            left: 0;
+            right: 0;
             text-align: center;
             color: #2c3e50;
-            margin-bottom: 30px;
+            margin: 0;
+            padding: 20px 0;
+            background: white;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+        
         .news-list {
-            display: flex;
-            flex-wrap: wrap;
+            display: flex; /* Flex container for horizontal layout */
+            flex-wrap: nowrap; /* Prevent wrapping to new line */
             gap: 20px;
+            padding: 80px 20px 20px; /* Make space for fixed header */
+            margin-left: 20px; /* Initial offset */
         }
+        
         .news-item {
             border: 1px solid #eee;
             border-radius: 8px;
             padding: 20px;
             box-sizing: border-box;
-            flex: 1 1 calc(33.333% - 20px); /* 3 колонки */
-            min-width: 300px; /* Минимальная ширина элемента */
+            width: 600px; /* Fixed width for each item */
+            min-width: 400px; /* Prevent shrinking */; /* Fixed height */
+            overflow: hidden; /* Hide overflow content */
             display: flex;
             flex-direction: column;
         }
+        
         .news-item img {
             max-width: 100%;
             height: auto;
             border-radius: 4px;
             margin-bottom: 15px;
         }
+        
         .news-title {
             font-size: 1.3rem;
             color: #2c3e50;
             margin: 10px 0;
         }
+        
         .news-description {
             color: #666;
             margin-bottom: 10px;
-            flex-grow: 1; /* Растягиваем описание для выравнивания */
+            flex-grow: 1;
+            overflow: hidden; /* Hide overflow */
+            text-overflow: ellipsis; /* Add ellipsis for long text */
         }
+        
         .news-price {
             font-weight: bold;
             color: #27ae60;
-            margin-top: auto; /* Прижимаем к низу */
+            margin-top: auto;
         }
-        .action-links {
-            margin-top: 15px;
-            display: flex;
-            gap: 10px;
-        }
-        .action-links a {
-            color: #3498db;
-            text-decoration: none;
-        }
-        .action-links a:hover {
-            text-decoration: underline;
-        }
+        
         footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
             background: #f5f5f5;
-            padding: 20px;
+            padding: 15px;
             text-align: center;
-            margin-top: 40px;
+            z-index: 100;
         }
+        
         .footer-links {
-            margin-bottom: 10px;
             display: flex;
             justify-content: center;
             gap: 20px;
         }
+        
         .footer-links a {
             color: #333;
             text-decoration: none;
         }
 
-        /* Медиа-запросы для адаптивности */
-        @media (max-width: 768px) {
-            .news-item {
-                flex: 1 1 calc(50% - 20px); /* 2 колонки на планшетах */
-            }
+        /* Scroll snap for better UX */
+        .news-list {
+            scroll-snap-type: x proximity;
         }
-        @media (max-width: 480px) {
-            .news-item {
-                flex: 1 1 100%; /* 1 колонка на мобильных */
-            }
+        
+        .news-item {
+            scroll-snap-align: start;
+        }
+
+        /* Hide scrollbar for cleaner look (optional) */
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        
+        body {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>НОВОСТИ</h1>
-        
-        <div class="news-list">
-            {% for item in news %}
-            <div class="news-item">
-                {% if item.image %}
-                <img src="{{ item.image.url }}" alt="{{ item.name }}">
-                {% else %}
-                <div class="placeholder-image" style="background: #eee; height: 150px; display: flex; align-items: center; justify-content: center; color: #999;">
-                    Изображение отсутствует
-                </div>
-                {% endif %}
-                <h2 class="news-title">{{ item.name }}</h2>
-                <p class="news-description">{{ item.description }}</p>
-                <p class="news-price">{{ item.main_text }}</p>
+    <h1>НОВОСТИ</h1>
+    
+    <div class="news-list">
+        {% for item in news %}
+        <div class="news-item">
+            {% if item.image %}
+            <img src="{{ item.image.url }}" alt="{{ item.name }}">
+            {% else %}
+            <div class="placeholder-image" style="background: #eee; height: 150px; display: flex; align-items: center; justify-content: center; color: #999;">
+                Изображение отсутствует
             </div>
-            {% endfor %}
+            {% endif %}
+            <h2 class="news-title">{{ item.name }}</h2>
+            <p class="news-description">{{ item.description }}</p>
+            <p class="news-price">{{ item.main_text }}</p>
         </div>
+        {% endfor %}
     </div>
 
     <footer>
