@@ -3,6 +3,7 @@ from django.urls import path
 
 from django.contrib.auth import views as auth_views
 from . import views
+from .views import LogoutView
 
 urlpatterns = [
     path('', views.NewsListViewForAll.as_view(), name='news_list_for_all'),
@@ -15,5 +16,5 @@ urlpatterns = [
 
         # Встроенные auth-представления Django
     path('accounts/login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
-    path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('accounts/logout/', LogoutView.as_view(), name='logout'),
 ]

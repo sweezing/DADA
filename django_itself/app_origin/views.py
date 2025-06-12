@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin  # Add this
+from django.contrib.auth.views import LogoutView as DjangoLogoutView
 
 from .models import News
 from .forms import NewsForm
@@ -32,19 +33,24 @@ class NewsListView(LoginRequiredMixin, ListView):
     context_object_name = 'news'
 
 # Только для администраторов (staff)
-class NewsCreateView(LoginRequiredMixin, CreateView):
+class NewsCreateView(AdminRequiredMixin, CreateView):
     model = News
     form_class = NewsForm
     template_name = 'magazine/news_form.html'
     success_url = reverse_lazy('news_list')
 
-class NewsUpdateView(LoginRequiredMixin, UpdateView):
+class NewsUpdateView(AdminRequiredMixin, UpdateView):
     model = News
     form_class = NewsForm
     template_name = 'magazine/news_form.html'
     success_url = reverse_lazy('news_list')
 
-class NewsDeleteView(LoginRequiredMixin, DeleteView):
+class NewsDeleteView(AdminRequiredMixin, DeleteView):
     model = News
     template_name = 'magazine/news_confirm_delete.html'
     success_url = reverse_lazy('news_list')
+
+# Allow GET method for logout so users can log out via simple link
+class LogoutView(DjangoLogoutView):
+    next_page = 'news_list_for_all'
+    http_method_names = ['get', 'post', 'head', 'options', 'trace']
